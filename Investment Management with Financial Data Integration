@@ -1,0 +1,80 @@
+Creating a complete investment management project with integration with financial data sources is a substantial task. Here, I'll provide you with a simplified example of how you might structure the code for such a project. Please note that this is a basic demonstration and doesn't include all the complexities of a real-world project, such as error handling, proper architecture, and production-level code quality.
+
+**Project: Investment Management with Financial Data Integration**
+
+**1. Create Asset Class:**
+
+```java
+public class Asset {
+    private String name;
+    private List<Double> historicalReturns;
+
+    public Asset(String name, List<Double> historicalReturns) {
+        this.name = name;
+        this.historicalReturns = historicalReturns;
+    }
+
+    // Getters and setters
+}
+```
+
+**2. Data Retrieval and Integration:**
+
+```java
+import java.util.List;
+
+public class FinancialDataRetriever {
+    public List<Asset> fetchAssetDataFromAPI() {
+        // Implement data fetching from API here
+        // Parse API response and create Asset objects
+        return null;
+    }
+}
+```
+
+**3. Portfolio Management:**
+
+```java
+import java.util.ArrayList;
+import java.util.List;
+
+public class PortfolioManager {
+    public double calculatePortfolioReturns(List<Asset> assets, List<Double> weights) {
+        // Calculate portfolio returns based on historical data and weights
+        return 0;
+    }
+
+    public double calculatePortfolioRisk(List<Asset> assets, List<Double> weights) {
+        // Calculate portfolio risk using historical data and weights
+        return 0;
+    }
+}
+```
+
+**4. Main Application:**
+
+```java
+import java.util.List;
+
+public class InvestmentManagementApp {
+    public static void main(String[] args) {
+        FinancialDataRetriever dataRetriever = new FinancialDataRetriever();
+        List<Asset> assets = dataRetriever.fetchAssetDataFromAPI();
+
+        PortfolioManager portfolioManager = new PortfolioManager();
+        List<Double> portfolioWeights = new ArrayList<>();
+        portfolioWeights.add(0.5);
+        portfolioWeights.add(0.5);
+
+        double portfolioReturns = portfolioManager.calculatePortfolioReturns(assets, portfolioWeights);
+        double portfolioRisk = portfolioManager.calculatePortfolioRisk(assets, portfolioWeights);
+
+        System.out.println("Portfolio Returns: " + portfolioReturns);
+        System.out.println("Portfolio Risk: " + portfolioRisk);
+    }
+}
+```
+
+Please note that this example doesn't include the actual implementation of data retrieval from a financial data API or the specific calculations for portfolio returns and risk. You would need to implement these parts based on the APIs you're using and the mathematical models you're employing for portfolio management.
+
+In a real-world project, you would also need to handle exceptions, implement proper architecture, use dependency injection for better code organization, and potentially use libraries for tasks like HTTP requests and data parsing.
