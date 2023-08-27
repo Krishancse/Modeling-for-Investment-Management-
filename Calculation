@@ -1,0 +1,81 @@
+import java.util.ArrayList;
+import java.util.List;
+
+class Asset {
+    String name;
+    double[] historicalReturns;
+
+    Asset(String name, double[] historicalReturns) {
+        this.name = name;
+        this.historicalReturns = historicalReturns;
+    }
+}
+
+public class InvestmentManagementModeling {
+    public static void main(String[] args) {
+        // Create asset objects with historical returns
+        Asset asset1 = new Asset("Stock A", new double[] {0.1, 0.05, -0.02, 0.12, 0.08});
+        Asset asset2 = new Asset("Stock B", new double[] {0.08, 0.12, 0.04, -0.01, 0.06});
+
+        List<Asset> assets = new ArrayList<>();
+        assets.add(asset1);
+        assets.add(asset2);
+
+        double[] portfolioWeights = {0.5, 0.5}; // Equal weight for both assets
+
+        // Calculate portfolio returns and risk
+        double portfolioReturns = calculatePortfolioReturns(assets, portfolioWeights);
+        double portfolioRisk = calculatePortfolioRisk(assets, portfolioWeights);
+
+        // Calculate Sharpe ratio
+        double riskFreeRate = 0.03; // Assumed risk-free rate
+        double sharpeRatio = calculateSharpeRatio(portfolioReturns, portfolioRisk, riskFreeRate);
+
+        System.out.println("Portfolio Returns: " + portfolioReturns);
+        System.out.println("Portfolio Risk: " + portfolioRisk);
+        System.out.println("Sharpe Ratio: " + sharpeRatio);
+    }
+
+    private static double calculatePortfolioReturns(List<Asset> assets, double[] weights) {
+        double portfolioReturns = 0;
+
+        for (int i = 0; i < assets.get(0).historicalReturns.length; i++) {
+            double weightedReturn = 0;
+            for (int j = 0; j < assets.size(); j++) {
+                weightedReturn += assets.get(j).historicalReturns[i] * weights[j];
+            }
+            portfolioReturns += weightedReturn;
+        }
+
+        return portfolioReturns;
+    }
+
+    private static double calculatePortfolioRisk(List<Asset> assets, double[] weights) {
+        double portfolioVariance = 0;
+        double portfolioReturns = calculatePortfolioReturns(assets, weights);
+        int numPeriods = assets.get(0).historicalReturns.length;
+
+        for (int i = 0; i < numPeriods; i++) {
+            double weightedSum = 0;
+            for (int j = 0; j < assets.size(); j++) {
+                double deviation = assets.get(j).historicalReturns[i] - calculateAssetReturn(assets.get(j).historicalReturns);
+                weightedSum += Math.pow(weights[j] * deviation, 2);
+            }
+            portfolioVariance += weightedSum;
+        }
+
+        return Math.sqrt(portfolioVariance);
+    }
+
+    private static double calculateAssetReturn(double[] historicalReturns) {
+        double totalReturn = 0;
+        for (double r : historicalReturns) {
+            totalReturn += r;
+        }
+        return totalReturn / historicalReturns.length;
+    }
+
+    private static double calculateSharpeRatio(double portfolioReturns, double portfolioRisk, double riskFreeRate) {
+        return (portfolioReturns - riskFreeRate) / portfolioRisk;
+    }
+}
