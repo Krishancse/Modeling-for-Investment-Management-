@@ -1,0 +1,84 @@
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
+
+class Asset {
+    String name;
+    double[] historicalReturns;
+
+    Asset(String name, double[] historicalReturns) {
+        this.name = name;
+        this.historicalReturns = historicalReturns;
+    }
+}
+
+public class InvestmentManagementDataProcessing {
+    public static void main(String[] args) {
+        List<Asset> assets = loadAssetData("asset_returns.csv");
+        double[] portfolioWeights = loadPortfolioWeights("portfolio_weights.csv");
+
+        // Process data and perform calculations
+        // Example: Calculate portfolio returns and risk
+        double portfolioReturns = calculatePortfolioReturns(assets, portfolioWeights);
+        double portfolioRisk = calculatePortfolioRisk(assets, portfolioWeights);
+
+        System.out.println("Portfolio Returns: " + portfolioReturns);
+        System.out.println("Portfolio Risk: " + portfolioRisk);
+    }
+
+    private static List<Asset> loadAssetData(String fileName) {
+        List<Asset> assets = new ArrayList<>();
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line;
+            while ((line = reader.readLine()) != null) {
+                String[] values = line.split(",");
+                String name = values[0];
+                double[] returns = new double[values.length - 1];
+                for (int i = 1; i < values.length; i++) {
+                    returns[i - 1] = Double.parseDouble(values[i]);
+                }
+                assets.add(new Asset(name, returns));
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return assets;
+    }
+
+    private static double[] loadPortfolioWeights(String fileName) {
+        double[] weights = null;
+
+        try (BufferedReader reader = new BufferedReader(new FileReader(fileName))) {
+            String line = reader.readLine();
+            String[] values = line.split(",");
+            weights = new double[values.length];
+            for (int i = 0; i < values.length; i++) {
+                weights[i] = Double.parseDouble(values[i]);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        return weights;
+    }
+
+    private static double calculatePortfolioReturns(List<Asset> assets, double[] weights) {
+        // Implement portfolio return calculation here
+        // This depends on your specific method of calculating portfolio returns
+        // For example, you can use the same logic as shown in previous examples
+        // Return the calculated portfolio return
+        return 0;
+    }
+
+    private static double calculatePortfolioRisk(List<Asset> assets, double[] weights) {
+        // Implement portfolio risk calculation here
+        // This depends on your specific method of calculating portfolio risk
+        // For example, you can use the same logic as shown in previous examples
+        // Return the calculated portfolio risk
+        return 0;
+    }
+}
